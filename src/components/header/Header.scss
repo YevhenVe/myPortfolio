@@ -1,0 +1,89 @@
+.header-wrapper {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    .header-content-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 80px;
+        @media screen and (max-width: 768px) {
+            margin: 0 20px;
+        }
+        .logo {
+            cursor: pointer;
+        }
+
+        .links {
+            .links-box {
+                display: flex;
+                li {
+                    display: inherit;
+                    align-items: center;
+                    cursor: pointer;
+                    list-style: none;
+                    margin: 0 10px;
+                    &:hover {
+                        font-weight: bold;
+                    }
+                    .avatar {
+                        width: 45px;
+                        height: 45px;
+                        margin: 0 20px;
+                    }
+                }
+
+                @media screen and (max-width: 768px) {
+                    display: none;
+                    flex-direction: column;
+                    position: absolute;
+                    top: 80px;
+                    left: 0;
+                    width: 100%;
+                    padding: 20px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    li {
+                        margin: 10px 0;
+                    }
+                }
+
+                &.open {
+                    display: flex;
+                }
+            }
+
+            .burger-wrapper {
+                display: none;
+
+                @media screen and (max-width: 768px) {
+                    display: block;
+                    cursor: pointer;
+                    .burger {
+                        width: 25px;
+                        height: 25px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        span {
+                            display: block;
+                            height: 3px;
+                            border-radius: 2px;
+                            transition: 0.3s;
+                        }
+                        &.open {
+                            span:nth-child(1) {
+                                transform: rotate(45deg) translate(5px, 10px);
+                            }
+                            span:nth-child(2) {
+                                opacity: 0;
+                            }
+                            span:nth-child(3) {
+                                transform: rotate(-45deg) translate(5px, -10px);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

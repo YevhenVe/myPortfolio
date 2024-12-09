@@ -1,0 +1,40 @@
+:root {
+    --dark: #202124;
+    --light: #f1f3f4;
+}
+/* Main styles for both themes */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light theme */
+.theme-light {
+    background-color: var(--light);
+    color: var(--dark);
+    .burger-wrapper {
+        span {
+            background: var(--dark);
+        }
+    }
+    .links-box {
+        @media screen and (max-width: 768px) {
+            background: var(--light);
+        }
+    }
+}
+
+/* Dark theme */
+.theme-dark {
+    background-color: var(--dark);
+    color: var(--light);
+    .burger-wrapper {
+        span {
+            background: var(--light);
+        }
+    }
+    .links-box {
+        @media screen and (max-width: 768px) {
+            background: var(--dark);
+        }
+    }
+}

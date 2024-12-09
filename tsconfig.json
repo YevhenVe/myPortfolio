@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "target": "ESNext",
+    "module": "ESNext",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Node",
+    "strict": true,
+    "typeRoots": [
+      "src/env.d.ts",
+      "node_modules/@types"
+    ],
+    "types": [
+      "vite/client"
+    ],
+    "baseUrl": "./",
+    "paths": {}
+  },
+  "include": [
+    "src",
+    "src/env.d.ts"
+  ]
+}
