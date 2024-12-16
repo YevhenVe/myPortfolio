@@ -5,6 +5,7 @@ interface UserState {
     email: string | null;
     uid: string | null;
     photoURL: string | null;
+    role: "admin" | "user" | null;
 }
 
 const initialState: UserState = {
@@ -12,6 +13,8 @@ const initialState: UserState = {
     email: null,
     uid: null,
     photoURL: null,
+    role: null,
+
 };
 
 const userSlice = createSlice({
@@ -23,12 +26,14 @@ const userSlice = createSlice({
             state.email = action.payload.email;
             state.uid = action.payload.uid;
             state.photoURL = action.payload.photoURL;
+            state.role = action.payload.role;
         },
         clearUser(state) {
             state.displayName = null;
             state.email = null;
             state.uid = null;
             state.photoURL = null;
+            state.role = null;
         },
     },
 });

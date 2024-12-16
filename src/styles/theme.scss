@@ -1,40 +1,47 @@
 :root {
-    --dark: #202124;
-    --light: #f1f3f4;
+    --bg-color: #f1f3f4;
+    --text-color: #4a5057;
+    --border-color: #202124;
+    --button-bg: #f1f3f4;
+    --button-hover-bg: #f1f3f4;
+    --burger-color: #202124;
 }
-/* Main styles for both themes */
+
+.theme-dark {
+    --bg-color: #202124;
+    --text-color: #f1f3f4;
+    --border-color: #f1f3f4;
+    --button-bg: #202124;
+    --button-hover-bg: #202124;
+    --burger-color: #f1f3f4;
+}
+
 body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
-
-/* Light theme */
-.theme-light {
-    background-color: var(--light);
-    color: var(--dark);
-    .burger-wrapper {
-        span {
-            background: var(--dark);
-        }
-    }
-    .links-box {
-        @media screen and (max-width: 768px) {
-            background: var(--light);
-        }
+.burger-wrapper {
+    span {
+        background: var(--burger-color);
     }
 }
-
-/* Dark theme */
-.theme-dark {
-    background-color: var(--dark);
-    color: var(--light);
-    .burger-wrapper {
-        span {
-            background: var(--light);
-        }
+.links-box {
+    @media screen and (max-width: 850px) {
+        background: var(--bg-color);
     }
-    .links-box {
-        @media screen and (max-width: 768px) {
-            background: var(--dark);
-        }
+}
+.custom-button {
+    border: 1px solid var(--border-color);
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    &:hover {
+        background-color: var(--button-hover-bg);
     }
+}
+.logo {
+    border: 1px solid var(--border-color);
+}
+.header-wrapper {
+    background-color: var(--bg-color);
 }

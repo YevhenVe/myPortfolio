@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../store/store';
+import CustomButton from "../button/Button";
 import { toggleTheme, updateThemeInDatabase, fetchThemeFromDatabase } from '../../store/themeSlice';
 import "./Header.scss";
 
@@ -42,25 +43,28 @@ const Header: React.FC = () => {
                         </div>
                     </div>
                     <ul className={`links-box ${isOpen ? "open" : ""}`}>
-                        <li onClick={() => { navigate("/"); setIsOpen(false); }}>Home</li>
-                        <li onClick={() => { navigate("/about"); setIsOpen(false); }}>About</li>
-                        <li onClick={() => { navigate("/contacts"); setIsOpen(false); }}>Contacts</li>
-                        <li onClick={() => { navigate("/projects"); setIsOpen(false); }}>Projects</li>
-                        <li onClick={() => { navigate("/blog"); setIsOpen(false); }}>Blog</li>
-                        {user.uid ? <li onClick={handleToggle}>Theme</li> : ""}
-                        <li onClick={() => { navigate("/auth"); setIsOpen(false); }}>
+                        <li>
+                            <CustomButton label="Home" onClick={() => { navigate("/"); setIsOpen(false); }} imageLeft="" imageRight={""} />
+                        </li>
+                        <li>
+                            <CustomButton label="About" onClick={() => { navigate("/about"); setIsOpen(false); }} imageLeft="" imageRight={""} />
+                        </li>
+                        <li>
+                            <CustomButton label="Contacts" onClick={() => { navigate("/contacts"); setIsOpen(false); }} imageLeft="" imageRight={""} />
+                        </li>
+                        <li>
+                            <CustomButton label="Projects" onClick={() => { navigate("/projects"); setIsOpen(false); }} imageLeft="" imageRight={""} />
+                        </li>
+                        <li>
+                            <CustomButton label="Blog" onClick={() => { navigate("/blog"); setIsOpen(false); }} imageLeft="" imageRight={""} />
+                        </li>
+                        {user.uid && <li><CustomButton label="Theme" onClick={handleToggle} imageLeft="" imageRight={""} /></li>}
+                        <li>
                             {user.uid ? (
-                                <>
-                                    <span>{user.displayName?.split(' ')[0]}</span>
-                                    <img
-                                        className="avatar"
-                                        src={user.photoURL ?? ''}
-                                        alt={`${user.displayName}'s avatar`}
-                                        style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-                                    />
-                                </>
+                                <CustomButton label={user.displayName!.split(' ')[0]} onClick={() => { navigate("/auth"); setIsOpen(false); }} imageLeft="" imageRight={user.photoURL ?? ''} />
+
                             ) : (
-                                <>Login</>
+                                <CustomButton label="Login" onClick={() => { navigate("/auth"); setIsOpen(false); }} imageLeft="" imageRight={""} />
                             )}
                         </li>
                     </ul>

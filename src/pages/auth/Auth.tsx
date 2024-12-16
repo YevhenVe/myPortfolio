@@ -1,33 +1,41 @@
-import React from "react";
 import { auth, googleProvider, database } from "../../../Firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { ref, set } from "firebase/database";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser, clearUser } from "../../store/userSlice";
-import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { toggleTheme } from '../../store/themeSlice';
+import Button from "../../components/button/Button";
+import "./Auth.scss";
 
 const Auth = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user);
     const navigate = useNavigate();
+
     const handleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
             if (user) {
+                const isAdmin = user.email === "eugene.veprytskyi@gmail.com";
+
+                // Set the user data
                 const userData = {
                     displayName: user.displayName,
                     email: user.email,
                     uid: user.uid,
                     photoURL: user.photoURL,
+                    role: isAdmin ? "admin" : "user",
                 };
+
                 navigate("/");
-                // Saving user data in Redux
+
+                // Save the user data in Redux
                 dispatch(setUser(userData));
-                // Recording user data in Realtime Database
+
+                // Record the user in the Realtime Database
                 await set(ref(database, `users/${user.uid}`), userData);
             }
         } catch (error) {
@@ -39,8 +47,8 @@ const Auth = () => {
         try {
             await signOut(auth);
             dispatch(clearUser());
-            dispatch(toggleTheme('light')); // Can reset the theme to default (light) if needed
-            navigate("/"); // Navigating to the login page
+            dispatch(toggleTheme('light'));
+            navigate("/");
         } catch (error) {
             console.error("Logout Error:", error);
         }
@@ -49,14 +57,28 @@ const Auth = () => {
     return (
         <div className="body-wrapper">
             <h1>Auth</h1>
-            {user.uid && <div className="info-box">
-                <div className="info-left"><p><img src={user.photoURL ?? ''} alt="" /></p></div>
-                <div className="info-right"><p>Name: {user.displayName}</p></div>
-                <div className="info-left"><p>Email: {user.email}</p></div>
-                <div className="info-left"><p>UID: {user.uid}</p></div>
-
-            </div>}
-            {user.uid ? <button onClick={handleLogout}>Logout</button> : <button onClick={handleLogin}>Login with Google</button>}
+            {user.uid && (
+                <div className="info-box">
+                    <div className="info-left">
+                        <img className="user-pic" src={user.photoURL ?? ''} alt="" />
+                    </div>
+                    <div className="info-right">
+                        <p>Name: {user.displayName}</p>
+                        {user.role === "admin" && <p>Role: {user.role}</p>}
+                    </div>
+                    <div className="info-left">
+                        <p>Email: {user.email}</p>
+                    </div>
+                    <div className="info-left">
+                        <p>UID: {user.uid}</p>
+                    </div>
+                </div>
+            )}
+            {user.uid ? (
+                <Button label="Logout" onClick={handleLogout} imageRight="" imageLeft="" />
+            ) : (
+                <Button label="Login with Google" onClick={handleLogin} imageRight="" imageLeft="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/150px-Google_%22G%22_logo.svg.png" />
+            )}
         </div>
     );
 };
