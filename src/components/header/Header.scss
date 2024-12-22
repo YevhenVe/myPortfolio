@@ -2,9 +2,10 @@
     width: 100%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: fixed;
+    background-color: #fff;
     left: 0;
     top: 0;
-    z-index: 2;
+    z-index: 3;
     .header-content-wrapper {
         display: flex;
         align-items: center;

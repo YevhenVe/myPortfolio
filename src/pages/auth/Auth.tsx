@@ -20,7 +20,6 @@ const Auth = () => {
             const user = result.user;
             if (user) {
                 const isAdmin = user.email === "eugene.veprytskyi@gmail.com";
-
                 // Set the user data
                 const userData = {
                     displayName: user.displayName,
@@ -29,12 +28,7 @@ const Auth = () => {
                     photoURL: user.photoURL,
                     role: isAdmin ? "admin" : "user",
                 };
-
                 navigate("/");
-
-                // Save the user data in Redux
-                dispatch(setUser(userData));
-
                 // Record the user in the Realtime Database
                 await set(ref(database, `users/${user.uid}`), userData);
             }
@@ -55,8 +49,8 @@ const Auth = () => {
     };
 
     return (
-        <div className="body-wrapper">
-            <h1>Auth</h1>
+        <div className="body-wrapper auth">
+            <h1>User page</h1>
             {user.uid && (
                 <div className="info-box">
                     <div className="info-left">
