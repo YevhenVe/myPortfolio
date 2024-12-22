@@ -16,13 +16,13 @@ export const useAuth = () => {
                         email: user.email,
                         uid: user.uid,
                         photoURL: user.photoURL,
+                        role: user.email === "eugene.veprytskyi@gmail.com" ? "admin" : "user",
                     })
                 );
             } else {
                 dispatch(clearUser());
             }
         });
-
         return () => unsubscribe();
     }, [dispatch]);
 };

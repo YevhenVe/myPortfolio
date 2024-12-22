@@ -1,0 +1,40 @@
+.blog-wrapper {
+    max-width: 1280px;
+    padding: 0 20px;
+    margin: 100px auto 80px auto;
+    .show-form-button {
+        margin-bottom: 20px;
+    }
+    .news-list {
+        .news-item {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            img {
+                aspect-ratio: 16/9;
+                max-width: 600px;
+                object-fit: cover;
+                width: 100%;
+                border-radius: 15px;
+                transition: all 0.3s ease;
+            }
+            p {
+                word-wrap: break-word;
+                white-space: pre-wrap;
+            }
+            .date {
+                margin-bottom: 20px;
+            }
+            .source {
+                margin-right: 5px;
+            }
+            .control-box {
+                display: flex;
+                button {
+                    margin-right: 20px;
+                }
+            }
+        }
+    }
+}
