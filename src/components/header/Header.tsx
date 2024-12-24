@@ -58,7 +58,6 @@ const Header: React.FC = () => {
                         <li>
                             <CustomButton label="Blog" onClick={() => { navigate("/blog"); setIsOpen(false); }} imageLeft="" imageRight={""} />
                         </li>
-                        {user.uid && <li><CustomButton label="Theme" onClick={handleToggle} imageLeft="" imageRight={""} /></li>}
                         <li>
                             {user.uid ? (
                                 <CustomButton label={user.displayName!.split(' ')[0]} onClick={() => { navigate("/auth"); setIsOpen(false); }} imageLeft="" imageRight={user.photoURL ?? ''} />
@@ -67,6 +66,7 @@ const Header: React.FC = () => {
                                 <CustomButton label="Login" onClick={() => { navigate("/auth"); setIsOpen(false); }} imageLeft="" imageRight={""} />
                             )}
                         </li>
+                        {user.uid && <li><CustomButton label={theme === "light" ? "☀️" : "🌒"} className="theme-switcher" onClick={handleToggle} imageLeft="" imageRight={""} /></li>}
                     </ul>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import { signInWithPopup, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { ref, set } from "firebase/database";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser, clearUser } from "../../store/userSlice";
+import { clearUser } from "../../store/userSlice";
 import { RootState } from '../../store/store';
 import { toggleTheme } from '../../store/themeSlice';
 import Button from "../../components/button/Button";
