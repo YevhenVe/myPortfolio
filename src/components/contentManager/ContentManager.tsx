@@ -18,7 +18,7 @@ interface ContentItem {
     forAdmin: boolean;
 }
 
-interface ContentManagerProps {
+export interface ContentManagerProps {
     contentPath: string; // Path in the database (e.g., "projects" or "news")
     title: string; // Page title
     postsPerPage: number; // Number of items per page
@@ -26,11 +26,12 @@ interface ContentManagerProps {
     contentItemClassName: string;
     contentImageClassName: string;
     contentTitleClassName: string;
-    contentTextClassName: (id: string) => string;
+    contentTextClassName: string | ((id: string) => string); // Теперь принимает строку или функцию
     contentDataClassName: string;
     contentListClassName: string;
     contentSourceClassName: string;
 }
+
 
 const ContentManager: React.FC<ContentManagerProps> = ({
     contentPath,

@@ -1,0 +1,20 @@
+@import "../../index.scss";
+.contacts-wrapper {
+    @include main-wrapper;
+    .contacts-content {
+    }
+    .contacts-social {
+        svg {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            &:hover {
+                transform: translateY(-5px);
+            }
+        }
+    }
+    .contact-form-wrapper {
+    }
+}

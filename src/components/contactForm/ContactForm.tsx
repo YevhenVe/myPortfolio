@@ -5,16 +5,16 @@ import Button from '../button/Button';
 import './ContactForm.scss';
 
 const ContactForm: React.FC = () => {
-    const form = useRef();
+    const form = useRef<HTMLFormElement | null>(null);
     const notify = (message: string, type: "success" | "error" = "success") => toast(message, { type });
     const sendEmail = (e: React.FormEvent) => {
         e.preventDefault();
 
-        emailjs.sendForm(import.meta.env.VITE_SERVICE_ID, import.meta.env.VITE_TEMPLATE_ID, form.current, import.meta.env.VITE_PUBLIC_KEY)
+        emailjs.sendForm(import.meta.env.VITE_SERVICE_ID, import.meta.env.VITE_TEMPLATE_ID, form.current as HTMLFormElement, import.meta.env.VITE_PUBLIC_KEY)
             .then(
                 () => {
                     notify("Email sent successfully!");
-                    form.current.reset();
+                    form.current?.reset();
                 },
                 (error) => {
                     console.error('Failed to send email:', error);

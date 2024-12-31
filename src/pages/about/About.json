@@ -1,0 +1,46 @@
+{
+    "about": "I am a Frontend Engineer with experience in developing dynamic and responsive user interfaces using React.js, Next.js, JavaScript, CSS (SCSS, LESS). I specialize in creating high-performance, user-centered applications with a focus on user interaction. I have hands-on experience with Firebase for building fully functional web projects, including authentication, databases, and hosting. I am committed to continuously improving the quality and optimization of development processes.",
+    "skills": {
+      "frontend": ["React.js", "Next.js", "JavaScript (ES6+)", "TypeScript", "HTML5", "CSS3", "SCSS", "LESS"],
+      "backend": ["Firebase (Authentication, Database, Storage, Hosting)"],
+      "state_management": ["Context API", "Redux"],
+      "tools_technologies": ["Git", "GitHub", "GitHub Actions", "Docker", "Firebase"],
+      "design": ["Figma", "Adobe Illustrator", "Photoshop"],
+      "other": ["Responsive Design", "Cross-browser Compatibility", "UI/UX Best Practices"]
+    },
+    "work_experience": [
+      {
+        "position": "Full-stack Developer (Frontend-focused)",
+        "company": "New World Telecom LLC",
+        "location": "USA, On-site",
+        "dates": "September 2022 – Present",
+        "responsibilities": [
+          "Developed and maintained web applications using React.js, SCSS, and Firebase.",
+          "Implemented authentication and data management functionalities through Firebase.",
+          "Contributed to UI/UX design, enhancing user interaction.",
+          "Performed DevOps tasks: CI/CD and deployment using GitHub Actions."
+        ]
+      },
+      {
+        "position": "Frontend Developer",
+        "company": "Deep Thought Solutions Ltd",
+        "location": "England, Remote",
+        "dates": "September 2021 – September 2022",
+        "responsibilities": [
+          "Developed and maintained web applications using React.js and SCSS.",
+          "Participated in UI/UX design, improving user interaction.",
+          "Managed CI/CD pipelines and deployment using GitHub Actions."
+        ]
+      }
+    ],
+    "education": {
+      "degree": "Master's Degree in Computer Technologies and Networks",
+      "institution": "Kharkiv National University 'Polytechnic Institute'",
+      "dates": "2005 – 2011"
+    },
+    "languages": {
+      "English": "Proficient",
+      "Ukrainian": "Native",
+      "Russian": "Native"
+    }
+  }

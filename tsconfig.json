@@ -6,6 +6,10 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "Node",
     "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowUmdGlobalAccess": true,
     "typeRoots": [
       "src/env.d.ts",
       "node_modules/@types"
