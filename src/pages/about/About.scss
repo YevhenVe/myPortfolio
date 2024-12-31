@@ -1,0 +1,8 @@
+@import "../../index.scss";
+.about-wrapper {
+    @include main-wrapper;
+    margin-bottom: 40px;
+    p {
+        white-space: pre-wrap;
+    }
+}

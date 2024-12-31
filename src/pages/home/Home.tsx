@@ -7,7 +7,7 @@ import './Home.scss';
 const Home: React.FC = () => {
     const [openModal, setOpenModal] = useState(false);
     const links = {
-        link1: "#",
+        link1: "https://docs.google.com/document/d/e/2PACX-1vR_gsdL1Ao3Av8lFDPEhj0O0QcCS98duY3rjyemjT4vKMBA_4GfUIzi6xGxTAsd-_4qHBPwvTMHB3st/pub",
     };
 
     const handleClickLinkOne = (link: string) => {

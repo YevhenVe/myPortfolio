@@ -16,6 +16,7 @@ const Blog: React.FC = () => {
                 contentDataClassName="news-data"
                 contentListClassName="news-list"
                 contentSourceClassName="news-source"
+                onClick={() => { }}
             />
         </div>
     );

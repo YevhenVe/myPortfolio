@@ -6,17 +6,34 @@
     cursor: pointer;
     border-radius: 12px;
     padding: 10px;
-    transition: all 0.3s ease;
-    &:hover {
-        transform: scale(1.2);
-        @media screen and (max-width: 850px) {
-            transform: translateY(-7px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+    overflow: hidden;
+    &:hover .button-name {
+        transform: translateX(6px);
     }
-    span {
+
+    &:hover .button-name::before {
+        bottom: 0px;
+        left: -15px;
+        transform: rotate(0deg);
+    }
+
+    .button-name {
+        transition: all 0.3s ease;
         margin: 0 10px;
         font-weight: 800;
+        position: relative;
+
+        &::before {
+            content: "➜";
+            position: absolute;
+            left: -50px;
+            bottom: -25px;
+            background-color: var(--dark);
+            transition: all 0.3s ease;
+            color: var(--dark);
+            font-size: 12px;
+            transform: rotate(-90deg);
+        }
     }
     .button-pic-right,
     .button-pic-left {

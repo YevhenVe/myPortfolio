@@ -5,6 +5,8 @@
     --button-bg: #f1f3f4;
     --button-hover-bg: #f1f3f4;
     --burger-color: #202124;
+    --modal-bg-color: rgba(255, 255, 255, 0.5);
+    --svg-fill: #f1f3f4;
 }
 
 .theme-dark {
@@ -14,6 +16,8 @@
     --button-bg: #202124;
     --button-hover-bg: #202124;
     --burger-color: #f1f3f4;
+    --modal-bg-color: rgba(0, 0, 0, 0.3);
+    --svg-fill: #202124;
 }
 
 body {
@@ -50,4 +54,12 @@ body {
 }
 .opened-post-wrapper {
     background-color: var(--bg-color);
+}
+.modal-wrapper {
+    background-color: var(--modal-bg-color);
+}
+.contacts-social {
+    svg {
+        fill: var(--svg-fill);
+    }
 }

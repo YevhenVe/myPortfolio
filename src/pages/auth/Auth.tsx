@@ -57,14 +57,14 @@ const Auth = () => {
                         <img className="user-pic" src={user.photoURL ?? ''} alt="" />
                     </div>
                     <div className="info-right">
-                        <p>Name: {user.displayName}</p>
-                        {user.role === "admin" && <p>Role: {user.role}</p>}
+                        <p><b>Name:</b> {user.displayName}</p>
+                        {user.role === "admin" && <p><b>Role:</b> {user.role}</p>}
                     </div>
                     <div className="info-left">
-                        <p>Email: {user.email}</p>
+                        <p><b>Email:</b> {user.email}</p>
                     </div>
                     <div className="info-left">
-                        <p>UID: {user.uid}</p>
+                        <p><b>UID:</b> {user.uid}</p>
                     </div>
                 </div>
             )}
