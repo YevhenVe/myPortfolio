@@ -12,7 +12,7 @@
     "allowUmdGlobalAccess": true,
     "noEmit": true,
      "outDir": "./build",
-     "rootDir": "./src",
+     "rootDir": "./",
     "typeRoots": [
       "src/env.d.ts",
       "node_modules/@types"

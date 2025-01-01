@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import Loader from "../../assets/loader.gif";
 import { database } from "../../../Firebase";
 import { ref, query, orderByChild, onValue, remove, push, update } from "firebase/database";
 import { useSelector } from "react-redux";
@@ -59,9 +60,14 @@ const ContentManager: React.FC<ContentManagerProps> = ({
     const [showForm, setShowForm] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [editId, setEditId] = useState<string | null>(null);
+    const [loadedImages, setLoadedImages] = useState<{ [key: string]: boolean }>({});
     const user = useSelector((state: RootState) => state.user);
 
     const notify = (message: string, type: "success" | "error" = "success") => toast(message, { type });
+
+    const handleImageLoad = (itemId: string) => {
+        setLoadedImages(prev => ({ ...prev, [itemId]: true }));
+    };
 
     // Function to handle input changes in the form
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -189,11 +195,19 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                                 onClick={() => onClick(item.id, item.date, item.title, item.text, item.source, item.imageUrl)}
                             >
                                 <div className={contentTitleClassName}>{item.title}</div>
-                                <img
-                                    className={contentImageClassName}
-                                    src={item.imageUrl}
-                                    alt={item.title}
-                                />
+                                <>
+                                    {!loadedImages[item.id] && (
+                                        <div className="preloader">
+                                            <img src={Loader} alt="loader" />
+                                        </div>
+                                    )}
+                                    <img
+                                        className={`${contentImageClassName} ${loadedImages[item.id] ? 'loaded' : 'loading'}`}
+                                        src={item.imageUrl}
+                                        alt={item.title}
+                                        onLoad={() => handleImageLoad(item.id)}
+                                    />
+                                </>
                                 <div className={textClassName}>{item.text}</div>
                                 <div className={contentSourceClassName}>
                                     <span>Source:</span>
