@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ContactForm from '../../components/contactForm/ContactForm';
 import Button from '../../components/button/Button';
 import ModalWindow from '../../components/modalWindow/ModalWindow';
+import HeroImage from '../../assets/heroimage.jpg';
 import './Home.scss';
 
 const Home: React.FC = () => {
@@ -31,7 +32,7 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                     <div className="introduction-right">
-                        <img className="introduction-pic" src="https://lh3.google.com/u/0/d/1doF3P4ziDRBlex55o_O6EX7lEoVnESen=w1920-h1049-iv1" alt="" />
+                        <img className="introduction-pic" src={HeroImage} alt="" />
                     </div>
                 </div>
             </div>
