@@ -6,18 +6,15 @@
 }
 
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
     scrollbar-width: thin;
     scrollbar-color: gray;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-}
-
-@mixin main-wrapper {
-    max-width: 1280px;
-    margin: 100px auto 0 auto;
-    padding: 0 20px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }

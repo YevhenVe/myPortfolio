@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../store/store';
+import Logo from "../../assets/logo.svg?react";
 import CustomButton from "../button/Button";
 import { toggleTheme, updateThemeInDatabase, fetchThemeFromDatabase } from '../../store/themeSlice';
 import "./Header.scss";
@@ -33,7 +34,7 @@ const Header: React.FC = () => {
     return (
         <div className="header-wrapper">
             <div className="header-content-wrapper">
-                <div className="logo" onClick={() => navigate("/")}>YV</div>
+                <div className="logo" onClick={() => navigate("/")}><Logo /></div>
                 <div className="links">
                     <div className="burger-wrapper" onClick={toggleMenu}>
                         <div className={`burger ${isOpen ? "open" : ""}`}>

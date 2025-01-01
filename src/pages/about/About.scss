@@ -1,8 +1,16 @@
-@import "../../index.scss";
+@import "../../styles/mixin.scss";
 .about-wrapper {
     @include main-wrapper;
+    section {
+        ul {
+            margin-left: 40px;
+        }
+    }
     margin-bottom: 40px;
     p {
         white-space: pre-wrap;
+    }
+    h2 {
+        margin: 20px 0;
     }
 }

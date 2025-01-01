@@ -8,8 +8,8 @@ const Contacts: React.FC = () => {
             <div className="contacts-wrapper">
                 <h1>Contacts</h1>
                 <div className="contacts-content">
-                    <p><b>Phone</b>: +1(773)844.04.98</p>
-                    <p><b>Email:</b> eugene.veprytskyi@gmail.com</p>
+                    <p><b>Phone: </b><a href="tel:+17738440498">+1(773)844.04.98</a></p>
+                    <p><b>Email: </b><a href="mailto:eugene.veprytskyi@gmail.com">eugene.veprytskyi@gmail.com</a></p>
                 </div>
                 <div className="contacts-social">
                     <p><b>My social networks:</b></p>
@@ -32,7 +32,7 @@ const Contacts: React.FC = () => {
                     <ContactForm />
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

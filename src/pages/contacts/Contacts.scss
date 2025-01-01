@@ -1,20 +1,31 @@
-@import "../../index.scss";
+@import "../../styles/mixin.scss";
 .contacts-wrapper {
     @include main-wrapper;
     .contacts-content {
+        p {
+            margin-bottom: 10px;
+        }
     }
     .contacts-social {
+        p {
+            margin: 20px 0;
+        }
         svg {
             width: 30px;
             height: 30px;
             margin-right: 10px;
             transition: all 0.3s;
             margin-bottom: 20px;
+            fill: var(--svg-fill);
             &:hover {
                 transform: translateY(-5px);
             }
         }
     }
     .contact-form-wrapper {
+        @media screen and (max-width: 550px) {
+            display: flex;
+            justify-content: center;
+        }
     }
 }

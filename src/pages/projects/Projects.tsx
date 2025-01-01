@@ -54,7 +54,7 @@ const Projects: React.FC = () => {
                         {postImage(activePost.imageUrl)}
                         <p>{activePost.text}</p>
                         <div className='source'>Source: <a href={activePost.source} target="_blank" rel="noopener noreferrer">{activePost.source.split("/")[2]}</a></div>
-                        <div className='date'>{new Date(activePost.date).toLocaleString()}</div>
+                        {/* <div className='date'>{new Date(activePost.date).toLocaleString()}</div> */}
                     </div>
                 </ModalWindow>
             )}

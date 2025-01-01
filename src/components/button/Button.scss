@@ -7,6 +7,9 @@
     border-radius: 12px;
     padding: 10px;
     overflow: hidden;
+    border: 1px solid var(--border-color);
+    background-color: var(--button-bg);
+    color: var(--text-color);
     &:hover .button-name {
         transform: translateX(6px);
     }
