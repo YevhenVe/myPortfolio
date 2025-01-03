@@ -49,31 +49,33 @@ const Auth = () => {
     };
 
     return (
-        <div className="body-wrapper auth">
-            <h1>User page</h1>
-            {user.uid && (
-                <div className="info-box">
-                    <div className="info-left">
-                        <img className="user-pic" src={user.photoURL ?? ''} alt="" />
+        <>
+            <div className="body-wrapper auth">
+                <h1>User page</h1>
+                {user.uid && (
+                    <div className="info-box">
+                        <div className="info-left">
+                            <img className="user-pic" src={user.photoURL ?? ''} alt="" />
+                        </div>
+                        <div className="info-right">
+                            <p><b>Name:</b> {user.displayName}</p>
+                            {user.role === "admin" && <p><b>Role:</b> {user.role}</p>}
+                        </div>
+                        <div className="info-left">
+                            <p><b>Email:</b> {user.email}</p>
+                        </div>
+                        <div className="info-left">
+                            <p><b>UID:</b> {user.uid}</p>
+                        </div>
                     </div>
-                    <div className="info-right">
-                        <p><b>Name:</b> {user.displayName}</p>
-                        {user.role === "admin" && <p><b>Role:</b> {user.role}</p>}
-                    </div>
-                    <div className="info-left">
-                        <p><b>Email:</b> {user.email}</p>
-                    </div>
-                    <div className="info-left">
-                        <p><b>UID:</b> {user.uid}</p>
-                    </div>
-                </div>
-            )}
-            {user.uid ? (
-                <Button label="Logout" onClick={handleLogout} imageRight="" imageLeft="" />
-            ) : (
-                <Button label="Login with Google" onClick={handleLogin} imageRight="" imageLeft="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/150px-Google_%22G%22_logo.svg.png" />
-            )}
-        </div>
+                )}
+                {user.uid ? (
+                    <Button label="Logout" onClick={handleLogout} imageRight="" imageLeft="" />
+                ) : (
+                    <Button label="Login with Google" onClick={handleLogin} imageRight="" imageLeft="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/150px-Google_%22G%22_logo.svg.png" />
+                )}
+            </div>
+        </>
     );
 };
 

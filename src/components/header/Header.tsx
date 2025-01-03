@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../store/store';
+import { toggleTheme, updateThemeInDatabase, fetchThemeFromDatabase } from '../../store/themeSlice';
 import Logo from "../../assets/logo.svg?react";
 import CustomButton from "../button/Button";
-import { toggleTheme, updateThemeInDatabase, fetchThemeFromDatabase } from '../../store/themeSlice';
 import "./Header.scss";
 
 const Header: React.FC = () => {
