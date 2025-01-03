@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Loader from "../../assets/loader.gif";
 import { database } from "../../../Firebase";
 import { ref, query, orderByChild, onValue, remove, push, update } from "firebase/database";
 import { useSelector } from "react-redux";
@@ -195,11 +194,9 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                                 onClick={() => onClick(item.id, item.date, item.title, item.text, item.source, item.imageUrl)}
                             >
                                 <div className={contentTitleClassName}>{item.title}</div>
-                                <>
+                                <div className="image-wrapper">
                                     {!loadedImages[item.id] && (
-                                        <div className="preloader">
-                                            <img src={Loader} alt="loader" />
-                                        </div>
+                                        <div className="preloader" />
                                     )}
                                     <img
                                         className={`${contentImageClassName} ${loadedImages[item.id] ? 'loaded' : 'loading'}`}
@@ -207,7 +204,7 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                                         alt={item.title}
                                         onLoad={() => handleImageLoad(item.id)}
                                     />
-                                </>
+                                </div>
                                 <div className={textClassName}>{item.text}</div>
                                 <div className={contentSourceClassName}>
                                     <span>Source:</span>

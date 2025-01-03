@@ -8,6 +8,7 @@
         margin-bottom: 20px;
         box-shadow: 0 9px 38px rgba(0, 0, 0, 0.06), 0 11px 12px rgba(0, 0, 0, 0.11);
         .news-image {
+            display: block;
             max-width: 320px;
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -30,7 +31,6 @@
                 margin-right: 6px;
             }
         }
-        .news-image,
         .news-title,
         .news-body,
         .news-data,
