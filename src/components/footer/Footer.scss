@@ -1,13 +1,9 @@
 .down-illustration {
-    display: block;
     position: fixed;
     bottom: 0;
+    height: 10px;
+    background-color: #d9603e;
     width: 100%;
     z-index: 2;
-    svg {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: fit-content;
-    }
+    pointer-events: none;
 }

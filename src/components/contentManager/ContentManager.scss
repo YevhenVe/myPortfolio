@@ -19,6 +19,14 @@
             display: flex;
             gap: 15px;
         }
+        .sort-button {
+            margin-bottom: 20px;
+            border: none;
+        }
+    }
+    .load-more-button {
+        float: right;
+        margin-bottom: 40px;
     }
 }
 

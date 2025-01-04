@@ -4,6 +4,7 @@ import { ref, query, orderByChild, onValue, remove, push, update } from "firebas
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 import CustomForm from "../../components/customForm/CustomForm";
 import Button from "../../components/button/Button";
 import "./ContentManager.scss";
@@ -60,6 +61,7 @@ const ContentManager: React.FC<ContentManagerProps> = ({
     const [editMode, setEditMode] = useState(false);
     const [editId, setEditId] = useState<string | null>(null);
     const [loadedImages, setLoadedImages] = useState<{ [key: string]: boolean }>({});
+    const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
     const user = useSelector((state: RootState) => state.user);
 
     const notify = (message: string, type: "success" | "error" = "success") => toast(message, { type });
@@ -179,8 +181,22 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                 </div>
             )}
             <div className={`content-list ${contentListClassName}`}>
+                {location.pathname !== "/projects" && visibleContent.length >= 2 && (
+                    <Button
+                        label={`Sort: ${sortOrder === "asc" ? "Old to New" : "New to Old"}`}
+                        onClick={() => setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))}
+                        className="sort-button"
+                        imageRight=""
+                        imageLeft=""
+                    />)
+                }
                 {visibleContent
                     .filter((item) => user.role === "admin" || !item.forAdmin)
+                    .sort((a, b) => {
+                        const dateA = new Date(a.date).getTime();
+                        const dateB = new Date(b.date).getTime();
+                        return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+                    })
                     .map((item) => {
                         const textClassName =
                             typeof contentTextClassName === "function"
@@ -195,11 +211,9 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                             >
                                 <div className={contentTitleClassName}>{item.title}</div>
                                 <div className="image-wrapper">
-                                    {!loadedImages[item.id] && (
-                                        <div className="preloader" />
-                                    )}
+                                    {!loadedImages[item.id] && <div className="preloader" />}
                                     <img
-                                        className={`${contentImageClassName} ${loadedImages[item.id] ? 'loaded' : 'loading'}`}
+                                        className={`${contentImageClassName} ${loadedImages[item.id] ? "loaded" : "loading"}`}
                                         src={item.imageUrl}
                                         alt={item.title}
                                         onLoad={() => handleImageLoad(item.id)}
@@ -250,7 +264,7 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                     })}
             </div>
             {visibleContent.length < content.length && (
-                <Button label="Load more" onClick={loadMorePosts} imageRight="" imageLeft="" />
+                <Button label="Load more" className="load-more-button" onClick={loadMorePosts} imageRight="" imageLeft="" />
             )}
         </div>
     );

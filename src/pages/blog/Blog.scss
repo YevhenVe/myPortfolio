@@ -1,41 +1,44 @@
 @import "../../styles/mixin.scss";
 .news-wrapper {
     @include main-wrapper;
-    .news-item {
-        border: 1px solid #ccc;
-        padding: 20px;
-        border-radius: 15px;
-        margin-bottom: 20px;
-        box-shadow: 0 9px 38px rgba(0, 0, 0, 0.06), 0 11px 12px rgba(0, 0, 0, 0.11);
-        .news-image {
-            display: block;
-            max-width: 320px;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
+    .news-list {
+        margin-bottom: 60px;
+        .news-item {
+            border: 1px solid #ccc;
+            padding: 20px;
             border-radius: 15px;
-        }
-        .news-title {
-            font-weight: 600;
-            font-size: 1.6em;
-        }
-        .news-body {
-            white-space: pre-wrap;
-        }
-        .news-data {
-            font-size: 1em;
-            color: #ccc;
-        }
-        .news-source {
-            span {
-                margin-right: 6px;
-            }
-        }
-        .news-title,
-        .news-body,
-        .news-data,
-        .news-source {
             margin-bottom: 20px;
+            box-shadow: 0 9px 38px rgba(0, 0, 0, 0.06), 0 11px 12px rgba(0, 0, 0, 0.11);
+            .news-image {
+                display: block;
+                max-width: 320px;
+                width: 100%;
+                aspect-ratio: 16 / 9;
+                object-fit: cover;
+                border-radius: 15px;
+            }
+            .news-title {
+                font-weight: 600;
+                font-size: 1.6em;
+            }
+            .news-body {
+                white-space: pre-wrap;
+            }
+            .news-data {
+                font-size: 1em;
+                color: #ccc;
+            }
+            .news-source {
+                span {
+                    margin-right: 6px;
+                }
+            }
+            .news-title,
+            .news-body,
+            .news-data,
+            .news-source {
+                margin-bottom: 20px;
+            }
         }
     }
 }
