@@ -37,7 +37,7 @@
                 height: 280px;
                 object-fit: cover;
                 border-radius: 15px;
-                border: 1px solid var(--border-color);
+                border: 1px solid #ccc;
             }
             .project-body {
                 position: relative;
@@ -75,7 +75,7 @@
     max-width: 1280px;
     width: 1280px;
     margin: 0 auto;
-    background-color: #ccc;
+    border: 1px solid #ccc;
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 9px 38px rgba(0, 0, 0, 0.06), 0 11px 12px rgba(0, 0, 0, 0.11);
@@ -95,7 +95,7 @@
         object-fit: cover;
         border-radius: 15px;
         margin: 20px 0;
-        border: 1px solid var(--border-color);
+        border: 1px solid #ccc;
     }
     p {
         white-space: pre-wrap;

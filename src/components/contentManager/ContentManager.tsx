@@ -209,7 +209,7 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                                 className={contentItemClassName}
                                 onClick={() => onClick(item.id, item.date, item.title, item.text, item.source, item.imageUrl)}
                             >
-                                <div className={contentTitleClassName}>{item.title}</div>
+                                <div className={contentTitleClassName}><span style={{ color: item.forAdmin ? "red" : "inherit" }}>{item.forAdmin && "🅐"}</span> {item.title}</div>
                                 <div className="image-wrapper">
                                     {!loadedImages[item.id] && <div className="preloader" />}
                                     <img
