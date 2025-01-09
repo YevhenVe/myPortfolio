@@ -23,14 +23,10 @@
     .control-box {
         display: flex;
         align-items: center;
-        .add-news-button {
-            width: fit-content;
-            margin-right: 20px;
-        }
         .cancel-button {
             margin-right: 20px;
         }
-        .add-project-button {
+        .add-button {
             margin-right: 15px;
         }
         .cancel-edit-button {

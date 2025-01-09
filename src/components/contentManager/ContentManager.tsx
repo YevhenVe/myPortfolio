@@ -4,7 +4,6 @@ import { ref, query, orderByChild, onValue, remove, push, update } from "firebas
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { toast } from "react-toastify";
-import { useLocation } from "react-router-dom";
 import CustomForm from "../../components/customForm/CustomForm";
 import Button from "../../components/button/Button";
 import "./ContentManager.scss";
@@ -18,7 +17,6 @@ interface ContentItem {
     source: string;
     forAdmin: boolean;
 }
-
 export interface ContentManagerProps {
     contentPath: string; // Path in the database (e.g., "projects" or "news")
     title: string; // Page title
@@ -32,7 +30,6 @@ export interface ContentManagerProps {
     contentListClassName: string;
     contentSourceClassName: string;
 }
-
 
 const ContentManager: React.FC<ContentManagerProps> = ({
     contentPath,
@@ -63,7 +60,6 @@ const ContentManager: React.FC<ContentManagerProps> = ({
     const [loadedImages, setLoadedImages] = useState<{ [key: string]: boolean }>({});
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
     const user = useSelector((state: RootState) => state.user);
-
     const notify = (message: string, type: "success" | "error" = "success") => toast(message, { type });
 
     const handleImageLoad = (itemId: string) => {
@@ -144,6 +140,16 @@ const ContentManager: React.FC<ContentManagerProps> = ({
         setVisibleContent(content.slice(0, postsPerPage * nextPage));
     };
 
+    // Function to linkify text (convert URLs to clickable links)
+    const linkify = (text: string): string => {
+        const urlRegex = /((?:https?:\/\/)|(?:www\.))[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
+        return text.replace(urlRegex, (url) => {
+            const href = url.startsWith('http') ? url : `http://${url}`;
+            const displayUrl = url.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0];
+            return `<a href="${href}"target="_blank" rel="noopener noreferrer">${displayUrl}</a>`;
+        });
+    };
+
     return (
         <div className="content-manager">
             <h1>{title}</h1>
@@ -202,14 +208,13 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                             typeof contentTextClassName === "function"
                                 ? contentTextClassName(item.id)
                                 : contentTextClassName;
-
                         return (
                             <div
                                 key={item.id}
                                 className={contentItemClassName}
                                 onClick={() => onClick(item.id, item.date, item.title, item.text, item.source, item.imageUrl)}
                             >
-                                <div className={contentTitleClassName}><span style={{ color: item.forAdmin ? "red" : "inherit" }}>{item.forAdmin && "🅐"}</span> {item.title}</div>
+                                <div className={contentTitleClassName}><span style={{ color: item.forAdmin ? "red" : "inherit" }}>{item.forAdmin && <div className="for-admin">A</div>}</span> {item.title}</div>
                                 <div className="image-wrapper">
                                     {!loadedImages[item.id] && <div className="preloader" />}
                                     <img
@@ -219,7 +224,7 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                                         onLoad={() => handleImageLoad(item.id)}
                                     />
                                 </div>
-                                <div className={textClassName}>{item.text}</div>
+                                <div className={textClassName} dangerouslySetInnerHTML={{ __html: linkify(item.text) }} />
                                 <div className={contentSourceClassName}>
                                     <span>Source:</span>
                                     <a

@@ -20,6 +20,17 @@
             .news-title {
                 font-weight: 600;
                 font-size: 1.6em;
+                span {
+                    display: inline-flex;
+                    .for-admin {
+                        text-align: center;
+                        border-radius: 50px;
+                        background-color: red;
+                        width: 35px;
+                        height: 35px;
+                        color: #f1f3f4;
+                    }
+                }
             }
             .news-body {
                 white-space: pre-wrap;

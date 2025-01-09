@@ -38,7 +38,7 @@ const CustomForm: React.FC<CustomFormProps> = ({
             <input
                 className="title-input"
                 type="text"
-                placeholder="Title of the Project"
+                placeholder="Enter title"
                 name="title"
                 value={titleValue}
                 onChange={titleOnChange}
@@ -53,7 +53,7 @@ const CustomForm: React.FC<CustomFormProps> = ({
             />
             <textarea
                 className="text-input"
-                placeholder="Text of the Project"
+                placeholder="Enter the text"
                 name="text"
                 value={textValue}
                 onChange={textOnChange}
@@ -71,9 +71,9 @@ const CustomForm: React.FC<CustomFormProps> = ({
             />
             <div className="control-box">
                 <Button
-                    label={editMode ? "Update Project" : "Add Project"}
+                    label={editMode ? "Update" : "Add"}
                     onClick={handleSubmit}
-                    className="add-project-button"
+                    className="add-button"
                     imageRight=""
                     imageLeft=""
                 />
