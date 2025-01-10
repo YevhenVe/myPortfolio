@@ -1,9 +1,9 @@
 import { auth, googleProvider, database } from "../../../Firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { ref, set } from "firebase/database";
+import { ref, set, get } from "firebase/database"; // Імпортуємо get
 import { useDispatch, useSelector } from "react-redux";
-import { clearUser } from "../../store/userSlice";
+import { setUser, clearUser } from "../../store/userSlice"; // Імпортуємо setUser
 import { RootState } from '../../store/store';
 import { toggleTheme } from '../../store/themeSlice';
 import Button from "../../components/button/Button";
@@ -17,20 +17,27 @@ const Auth = () => {
     const handleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
-            const user = result.user;
-            if (user) {
-                const isAdmin = user.email === "eugene.veprytskyi@gmail.com";
-                // Set the user data
-                const userData = {
-                    displayName: user.displayName,
-                    email: user.email,
-                    uid: user.uid,
-                    photoURL: user.photoURL,
-                    role: isAdmin ? "admin" : "user",
-                };
+            const loggedInUser = result.user;
+            if (loggedInUser) {
+                const userRef = ref(database, `users/${loggedInUser.uid}`);
+                const snapshot = await get(userRef);
+
+                let userData;
+                if (snapshot.exists()) {
+                    userData = snapshot.val();
+                } else {
+                    userData = {
+                        displayName: loggedInUser.displayName,
+                        email: loggedInUser.email,
+                        uid: loggedInUser.uid,
+                        photoURL: loggedInUser.photoURL,
+                        role: "user",
+                    };
+                    await set(ref(database, `users/${loggedInUser.uid}`), userData);
+                }
+
                 navigate("/");
-                // Record the user in the Realtime Database
-                await set(ref(database, `users/${user.uid}`), userData);
+                dispatch(setUser(userData));
             }
         } catch (error) {
             console.error("Login Error:", error);

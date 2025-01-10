@@ -118,14 +118,18 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                     .map(([id, value]: [string, any]) => ({ id, ...value }))
                     .reverse();
                 setContent(loadedContent);
-                setVisibleContent(loadedContent.slice(0, postsPerPage * page));
+                // Filtering the content before setting visibleContent
+                const initialVisibleContent = loadedContent
+                    .filter(item => user.role === "admin" || !item.forAdmin)
+                    .slice(0, postsPerPage * page);
+                setVisibleContent(initialVisibleContent);
             } else {
                 setContent([]);
                 setVisibleContent([]);
             }
         });
         return unsubscribe;
-    }, [contentPath, page, postsPerPage]);
+    }, [contentPath, page, postsPerPage, user.role]);
 
     // Fetch content on component mount
     useEffect(() => {
@@ -133,11 +137,17 @@ const ContentManager: React.FC<ContentManagerProps> = ({
         return () => unsubscribe();
     }, [fetchContent]);
 
+    // Filter content
+    const filteredContent = React.useMemo(() => {
+        return user.role === "admin" ? content : content.filter(item => !item.forAdmin);
+    }, [content, user.role]);
+
     // Load more content
     const loadMorePosts = () => {
+        const userContent = user.role === "admin" ? content : content.filter(item => !item.forAdmin);
         const nextPage = page + 1;
         setPage(nextPage);
-        setVisibleContent(content.slice(0, postsPerPage * nextPage));
+        setVisibleContent(userContent.slice(0, postsPerPage * nextPage));
     };
 
     // Function to linkify text (convert URLs to clickable links)
@@ -268,7 +278,7 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                         );
                     })}
             </div>
-            {visibleContent.length < content.length && (
+            {filteredContent.length > postsPerPage * page && (
                 <Button label="Load more" className="load-more-button" onClick={loadMorePosts} imageRight="" imageLeft="" />
             )}
         </div>
