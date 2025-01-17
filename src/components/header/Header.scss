@@ -19,12 +19,10 @@
             align-items: center;
             cursor: pointer;
             padding: 10px;
-            border-radius: 12px;
             font-weight: 600;
-            border: 1px solid var(--border-color);
             svg {
-                width: 35px;
-                height: 35px;
+                width: 45px;
+                height: 45px;
                 fill: var(--text-color);
             }
         }
