@@ -1,4 +1,4 @@
-@import "../../styles/mixin.scss";
+@use "../../styles/mixin.scss" as *;
 .about-wrapper {
     @include main-wrapper;
     section {
