@@ -25,7 +25,7 @@ export interface ContentManagerProps {
     contentItemClassName: string;
     contentImageClassName: string;
     contentTitleClassName: string;
-    contentTextClassName: string | ((id: string) => string); // Теперь принимает строку или функцию
+    contentTextClassName: string | ((id: string) => string);
     contentDataClassName: string;
     contentListClassName: string;
     contentSourceClassName: string;
@@ -150,16 +150,6 @@ const ContentManager: React.FC<ContentManagerProps> = ({
         setVisibleContent(userContent.slice(0, postsPerPage * nextPage));
     };
 
-    // Function to linkify text (convert URLs to clickable links)
-    const linkify = (text: string): string => {
-        const urlRegex = /((?:https?:\/\/)|(?:www\.))[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
-        return text.replace(urlRegex, (url) => {
-            const href = url.startsWith('http') ? url : `http://${url}`;
-            const displayUrl = url.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0];
-            return `<a href="${href}"target="_blank" rel="noopener noreferrer">${displayUrl}</a>`;
-        });
-    };
-
     return (
         <div className="content-manager">
             <h1>{title}</h1>
@@ -206,77 +196,79 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                         imageLeft=""
                     />)
                 }
-                {visibleContent
-                    .filter((item) => user.role === "admin" || !item.forAdmin)
-                    .sort((a, b) => {
-                        const dateA = new Date(a.date).getTime();
-                        const dateB = new Date(b.date).getTime();
-                        return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
-                    })
-                    .map((item) => {
-                        const textClassName =
-                            typeof contentTextClassName === "function"
-                                ? contentTextClassName(item.id)
-                                : contentTextClassName;
-                        return (
-                            <div
-                                key={item.id}
-                                className={contentItemClassName}
-                                onClick={() => onClick(item.id, item.date, item.title, item.text, item.source, item.imageUrl)}
-                            >
-                                <div className={contentTitleClassName}><span style={{ color: item.forAdmin ? "red" : "inherit" }}>{item.forAdmin && <div className="for-admin">A</div>}</span> {item.title}</div>
-                                <div className="image-wrapper">
-                                    {!loadedImages[item.id] && <div className="preloader" />}
-                                    <img
-                                        className={`${contentImageClassName} ${loadedImages[item.id] ? "loaded" : "loading"}`}
-                                        src={item.imageUrl}
-                                        alt={item.title}
-                                        onLoad={() => handleImageLoad(item.id)}
-                                    />
-                                </div>
-                                <div className={textClassName} dangerouslySetInnerHTML={{ __html: linkify(item.text) }} />
-                                <div className={contentSourceClassName}>
-                                    <span>Source:</span>
-                                    <a
-                                        href={item.source}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        {item.source.split("/")[2]}
-                                    </a>
-                                </div>
-                                <div className={contentDataClassName}>
-                                    {new Date(item.date).toLocaleString()}
-                                </div>
-                                {user.role === "admin" && (
-                                    <div className="button-box">
-                                        <Button
-                                            label="Edit"
-                                            onClick={(e: any) => {
-                                                e.stopPropagation();
-                                                setShowForm(true);
-                                                setEditMode(true);
-                                                setEditId(item.id);
-                                                setFormData(item);
-                                            }}
-                                            imageRight=""
-                                            imageLeft=""
-                                        />
-                                        <Button
-                                            label="Delete"
-                                            onClick={(e: any) => {
-                                                e.stopPropagation();
-                                                deleteContent(item.id);
-                                            }}
-                                            imageRight=""
-                                            imageLeft=""
+                <div className="content-list-wrapper">
+                    {visibleContent
+                        .filter((item) => user.role === "admin" || !item.forAdmin)
+                        .sort((a, b) => {
+                            const dateA = new Date(a.date).getTime();
+                            const dateB = new Date(b.date).getTime();
+                            return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+                        })
+                        .map((item) => {
+                            const textClassName =
+                                typeof contentTextClassName === "function"
+                                    ? contentTextClassName(item.id)
+                                    : contentTextClassName;
+                            return (
+                                <div
+                                    key={item.id}
+                                    className={contentItemClassName}
+                                    onClick={() => onClick(item.id, item.date, item.title, item.text, item.source, item.imageUrl)}
+                                >
+                                    <div className="image-wrapper">
+                                        {!loadedImages[item.id] && <div className="preloader" />}
+                                        <img
+                                            className={`${contentImageClassName} ${loadedImages[item.id] ? "loaded" : "loading"}`}
+                                            src={item.imageUrl}
+                                            alt={item.title}
+                                            onLoad={() => handleImageLoad(item.id)}
                                         />
                                     </div>
-                                )}
-                            </div>
-                        );
-                    })}
+                                    <div className={contentTitleClassName}>{item.forAdmin ? <span style={{ color: "red" }}><div className="for-admin">A</div></span> : null} {item.title}</div>
+                                    <div className={textClassName} />
+                                    <div className={contentSourceClassName}>
+                                        <span>Source:</span>
+                                        <a
+                                            href={item.source}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {item.source.split("/")[2]}
+                                        </a>
+                                    </div>
+                                    <div className={contentDataClassName}>
+                                        {new Date(item.date).toLocaleString()}
+                                    </div>
+                                    {user.role === "admin" && (
+                                        <div className="button-box">
+                                            <Button
+                                                label="Edit"
+                                                onClick={(e: any) => {
+                                                    e.stopPropagation();
+                                                    setShowForm(true);
+                                                    setEditMode(true);
+                                                    setEditId(item.id);
+                                                    setFormData(item);
+                                                }}
+                                                imageRight=""
+                                                imageLeft=""
+                                            />
+                                            <Button
+                                                label="Delete"
+                                                onClick={(e: any) => {
+                                                    e.stopPropagation();
+                                                    deleteContent(item.id);
+                                                }}
+                                                imageRight=""
+                                                imageLeft=""
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                </div>
             </div>
             {filteredContent.length > postsPerPage * page && (
                 <Button label="Load more" className="load-more-button" onClick={loadMorePosts} imageRight="" imageLeft="" />

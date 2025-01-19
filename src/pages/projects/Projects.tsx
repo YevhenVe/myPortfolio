@@ -35,7 +35,7 @@ const Projects: React.FC = () => {
             <ContentManager
                 contentPath="projects"
                 title="My Projects"
-                postsPerPage={8}
+                postsPerPage={6}
                 contentItemClassName="project-item"
                 contentListClassName="projects-list"
                 contentTitleClassName="project-title"
