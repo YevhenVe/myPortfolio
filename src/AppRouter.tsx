@@ -5,6 +5,7 @@ import Contacts from "./pages/contacts/Contacts";
 import Projects from "./pages/projects/Projects";
 import Blog from "./pages/blog/Blog";
 import Auth from "./pages/auth/Auth";
+import NewsDetailPage from "./pages/newsDetailPage/NewsDetailPage";
 
 const AppRouter: React.FC = () => {
     return (
@@ -26,6 +27,7 @@ const AppRouter: React.FC = () => {
                     path="/projects"
                     element={<Projects />}
                 />
+                <Route path="/blog/:id" element={<NewsDetailPage />} />
                 <Route
                     path="/blog"
                     element={<Blog />}
