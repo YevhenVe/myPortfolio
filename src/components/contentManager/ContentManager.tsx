@@ -59,12 +59,22 @@ const ContentManager: React.FC<ContentManagerProps> = ({
     const [editId, setEditId] = useState<string | null>(null);
     const [loadedImages, setLoadedImages] = useState<{ [key: string]: boolean }>({});
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+    const [hideAdminContent, setHideAdminContent] = useState<boolean>(() => {
+        const storedValue = sessionStorage.getItem('hideAdminContent');
+        return storedValue === 'true' ? true : false; // By dafault false, if not in the sessionStorage
+    });
     const user = useSelector((state: RootState) => state.user);
     const notify = (message: string, type: "success" | "error" = "success") => toast(message, { type });
 
     const handleImageLoad = (itemId: string) => {
         setLoadedImages(prev => ({ ...prev, [itemId]: true }));
     };
+
+    // Function to handle text changes in ReactQuill
+    const handleTextChange = (value: string) => {
+        setFormData((prev) => ({ ...prev, text: value }));
+    };
+
 
     // Function to handle input changes in the form
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -120,7 +130,7 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                 setContent(loadedContent);
                 // Filtering the content before setting visibleContent
                 const initialVisibleContent = loadedContent
-                    .filter(item => user.role === "admin" || !item.forAdmin)
+                    .filter(item => user.role === "admin" && hideAdminContent || !item.forAdmin)
                     .slice(0, postsPerPage * page);
                 setVisibleContent(initialVisibleContent);
             } else {
@@ -129,13 +139,18 @@ const ContentManager: React.FC<ContentManagerProps> = ({
             }
         });
         return unsubscribe;
-    }, [contentPath, page, postsPerPage, user.role]);
+    }, [contentPath, page, postsPerPage, user.role, hideAdminContent]);
 
     // Fetch content on component mount
     useEffect(() => {
         const unsubscribe = fetchContent();
         return () => unsubscribe();
     }, [fetchContent]);
+
+    // Adding hideAdminContent to dependencies useEffect
+    useEffect(() => {
+        sessionStorage.setItem('hideAdminContent', String(hideAdminContent)); // Save the value to sessionStorage
+    }, [hideAdminContent]);
 
     // Filter content
     const filteredContent = React.useMemo(() => {
@@ -165,21 +180,21 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                     {showForm && (
                         <CustomForm
                             titleValue={formData.title || ""}
-                            titleOnChange={handleChange}
+                            titleOnChange={handleChange} // Используем handleChange для title
                             textValue={formData.text || ""}
-                            textOnChange={handleChange}
+                            textOnChange={handleTextChange} // Используем handleTextChange для reactQuill
                             sourceValue={formData.source || ""}
-                            sourceOnChange={handleChange}
+                            sourceOnChange={handleChange} // Используем handleChange для source
                             imageUrlValue={formData.imageUrl || ""}
-                            imageUrlOnChange={handleChange}
+                            imageUrlOnChange={handleChange} // Используем handleChange для imageUrl
                             forAdminValue={formData.forAdmin || false}
-                            forAdminOnChange={handleChange}
+                            forAdminOnChange={handleChange} // Используем handleChange для forAdmin
                             handleSubmit={handleSubmit}
                             CancelOnClick={() => {
-                                setShowForm(false); //Hide form
-                                setFormData({ imageUrl: "", title: "", text: "", source: "", forAdmin: false }); // Clear form
-                                setEditMode(false); // Get out of edit mode
-                                setEditId(null); // Remove Id of the edited item
+                                setShowForm(false);
+                                setFormData({ imageUrl: "", title: "", text: "", source: "", forAdmin: false });
+                                setEditMode(false);
+                                setEditId(null);
                             }}
                             editMode={editMode}
                         />
@@ -187,15 +202,21 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                 </div>
             )}
             <div className={`content-list ${contentListClassName}`}>
-                {location.pathname !== "/projects" && visibleContent.length >= 2 && (
-                    <Button
-                        label={`Sort: ${sortOrder === "asc" ? "Old to New" : "New to Old"}`}
-                        onClick={() => setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))}
-                        className="sort-button"
-                        imageRight=""
-                        imageLeft=""
-                    />)
-                }
+                <div className="control-pannel-wrapper">
+                    {location.pathname !== "/projects" && visibleContent.length >= 2 && (
+                        <Button
+                            label={`Sort: ${sortOrder === "asc" ? "Old to New" : "New to Old"}`}
+                            onClick={() => setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))}
+                            className="sort-button"
+                            imageRight=""
+                            imageLeft=""
+                        />)
+                    }
+                    {user.role === "admin" && <label htmlFor="checkbox">
+                        <input className="hide-admin-checkbox" type="checkbox" checked={hideAdminContent} onChange={(e) => setHideAdminContent(e.target.checked)}></input>
+                        Show admin content
+                    </label>}
+                </div>
                 <div className="content-list-wrapper">
                     {visibleContent
                         .filter((item) => user.role === "admin" || !item.forAdmin)

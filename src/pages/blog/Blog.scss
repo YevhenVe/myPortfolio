@@ -11,6 +11,7 @@
                 grid-template-columns: repeat(1, 1fr);
             }
             .news-item {
+                background-color: var(--content-bg-color);
                 position: relative;
                 border: 1px solid #ccc;
                 padding: 20px;
@@ -25,7 +26,7 @@
                     display: block;
                     max-width: 100%;
                     width: 100%;
-                    aspect-ratio: 16 / 9;
+                    aspect-ratio: 16 / 5;
                     object-fit: cover;
                     border-radius: 15px;
                 }
@@ -55,6 +56,9 @@
                 .news-source {
                     span {
                         margin-right: 6px;
+                    }
+                    a {
+                        color: var(--text-color);
                     }
                 }
                 .news-title,

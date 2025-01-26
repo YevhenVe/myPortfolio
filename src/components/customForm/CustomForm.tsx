@@ -1,12 +1,14 @@
 import React from 'react'
 import Button from '../button/Button'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css';
 import './CustomForm.scss'
 
 interface CustomFormProps {
     titleValue: string;
     titleOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     textValue: string;
-    textOnChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    textOnChange: (value: string) => void;
     sourceValue: string;
     sourceOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     imageUrlValue: string;
@@ -51,15 +53,23 @@ const CustomForm: React.FC<CustomFormProps> = ({
                 value={imageUrlValue}
                 onChange={imageUrlOnChange}
             />
-            <textarea
-                className="text-input"
-                placeholder="Enter the text"
-                name="text"
+            <ReactQuill
                 value={textValue}
-                onChange={textOnChange}
-                rows={5}
-                cols={50}
-                style={{ resize: "vertical" }}
+                onChange={(value) => textOnChange(value)}
+                placeholder="Job description"
+                modules={{
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                        [{ list: 'ordered' }, { list: 'bullet' }],
+                        ['link', 'image'],
+                    ],
+                }}
+                style={{
+                    height: '400px',
+                    marginBottom: '40px',
+                    backgroundColor: 'var(--color-light)',
+                    color: 'var(--color-dark)',
+                }}
             />
             <input
                 className="source-input"
