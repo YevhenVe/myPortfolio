@@ -5,6 +5,7 @@ import Contacts from "./pages/contacts/Contacts";
 import Projects from "./pages/projects/Projects";
 import Blog from "./pages/blog/Blog";
 import Auth from "./pages/auth/Auth";
+import Page404 from "./pages/404/404";
 import NewsDetailPage from "./pages/newsDetailPage/NewsDetailPage";
 
 const AppRouter: React.FC = () => {
@@ -35,6 +36,10 @@ const AppRouter: React.FC = () => {
                 <Route
                     path="/auth"
                     element={<Auth />}
+                />
+                <Route
+                    path="/*"
+                    element={< Page404 />}
                 />
             </Routes>
         </>

@@ -9,6 +9,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import App from "./App";
 import "./index.scss";
 
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(() => console.log('SW registered'))
+            .catch(error => console.log('SW failed:', error));
+    });
+}
+
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <Provider store={store}>
