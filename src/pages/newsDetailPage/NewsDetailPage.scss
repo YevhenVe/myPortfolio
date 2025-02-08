@@ -28,6 +28,7 @@
         border-radius: 15px;
     }
     .news-content {
+        width: 100%;
         white-space: pre-wrap;
         margin-bottom: 20px;
         background-color: var(--content-bg-color);
@@ -45,6 +46,14 @@
                 max-width: 600px;
                 border-radius: 15px;
             }
+        }
+        .ql-video {
+            border-radius: 15px;
+            width: 100%;
+            max-width: 720px;
+            height: calc(100vw * 9 / 16);
+            max-height: 405px;
+            margin-top: 25px;
         }
     }
     .news-source {
