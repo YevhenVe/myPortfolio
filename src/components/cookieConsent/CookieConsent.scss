@@ -1,0 +1,21 @@
+.CookieConsent {
+    .learn-more-cookies-button {
+        p {
+            width: fit-content;
+            cursor: pointer;
+        }
+    }
+    button {
+        border-radius: 15px !important;
+    }
+}
+.learn-more-cookies {
+    max-width: 960px;
+    width: 100%;
+    .show {
+        p {
+            color: var(--text-color);
+            z-index: 3;
+        }
+    }
+}
