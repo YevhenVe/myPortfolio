@@ -1,3 +1,5 @@
+// ContentManager.tsx
+
 import React, { useState, useEffect, useCallback } from "react";
 import { database } from "../../../Firebase";
 import { ref, query, orderByChild, onValue, remove, push, update } from "firebase/database";
@@ -6,6 +8,7 @@ import { RootState } from "../../store/store";
 import { toast } from "react-toastify";
 import CustomForm from "../../components/customForm/CustomForm";
 import Button from "../../components/button/Button";
+import SearchBar from "../searchBar/SearchBar"; // Import the SearchBar component
 import "./ContentManager.scss";
 
 interface ContentItem {
@@ -17,11 +20,12 @@ interface ContentItem {
     source: string;
     forAdmin: boolean;
 }
+
 export interface ContentManagerProps {
-    contentPath: string; // Path in the database (e.g., "projects" or "news")
-    title: string; // Page title
-    postsPerPage: number; // Number of items per page
-    onClick: (id: string, date: string, title: string, text: string, source: string, imageUrl: string) => void; // Function to handle item click
+    contentPath: string;
+    title: string;
+    postsPerPage: number;
+    onClick: (id: string, date: string, title: string, text: string, source: string, imageUrl: string) => void;
     contentItemClassName: string;
     contentImageClassName: string;
     contentTitleClassName: string;
@@ -51,6 +55,7 @@ const ContentManager: React.FC<ContentManagerProps> = ({
         source: "",
         forAdmin: false,
     });
+    const [searchQuery, setSearchQuery] = useState('');
     const [content, setContent] = useState<ContentItem[]>([]);
     const [visibleContent, setVisibleContent] = useState<ContentItem[]>([]);
     const [page, setPage] = useState(1);
@@ -70,19 +75,15 @@ const ContentManager: React.FC<ContentManagerProps> = ({
         setLoadedImages(prev => ({ ...prev, [itemId]: true }));
     };
 
-    // Function to handle text changes in ReactQuill
     const handleTextChange = (value: string) => {
         setFormData((prev) => ({ ...prev, text: value }));
     };
 
-
-    // Function to handle input changes in the form
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type, checked } = e.target as HTMLInputElement;
         setFormData((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
     };
 
-    // Function to handle form submission (add or update content)
     const handleSubmit = async () => {
         if (!formData.imageUrl || !formData.title || !formData.text || !formData.source) return;
         const contentRef = ref(database, contentPath);
@@ -106,7 +107,6 @@ const ContentManager: React.FC<ContentManagerProps> = ({
         }
     };
 
-    // Function to delete content
     const deleteContent = async (id: string) => {
         if (user.role !== "admin") {
             notify("You don't have permission!");
@@ -117,7 +117,6 @@ const ContentManager: React.FC<ContentManagerProps> = ({
         notify(`${title} deleted successfully!`);
     };
 
-    // Function to fetch content
     const fetchContent = useCallback(() => {
         const contentRef = ref(database, contentPath);
         const contentQuery = query(contentRef, orderByChild("date"));
@@ -128,9 +127,8 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                     .map(([id, value]: [string, any]) => ({ id, ...value }))
                     .reverse();
                 setContent(loadedContent);
-                // Filtering the content before setting visibleContent
                 const initialVisibleContent = loadedContent
-                    .filter(item => user.role === "admin" && hideAdminContent || !item.forAdmin)
+                    .filter(item => (user.role === "admin" && hideAdminContent) || !item.forAdmin)
                     .slice(0, postsPerPage * page);
                 setVisibleContent(initialVisibleContent);
             } else {
@@ -141,29 +139,56 @@ const ContentManager: React.FC<ContentManagerProps> = ({
         return unsubscribe;
     }, [contentPath, page, postsPerPage, user.role, hideAdminContent]);
 
-    // Fetch content on component mount
     useEffect(() => {
         const unsubscribe = fetchContent();
         return () => unsubscribe();
     }, [fetchContent]);
 
-    // Adding hideAdminContent to dependencies useEffect
     useEffect(() => {
-        sessionStorage.setItem('hideAdminContent', String(hideAdminContent)); // Save the value to sessionStorage
+        sessionStorage.setItem('hideAdminContent', String(hideAdminContent));
     }, [hideAdminContent]);
 
-    // Filter content
     const filteredContent = React.useMemo(() => {
-        return user.role === "admin" ? content : content.filter(item => !item.forAdmin);
-    }, [content, user.role]);
+        let result = user.role === "admin" ? content : content.filter(item => !item.forAdmin);
 
-    // Load more content
+        if (!hideAdminContent && user.role === "admin") {
+            result = result.filter(item => !item.forAdmin);
+        }
+
+        if (searchQuery.trim()) {
+            const query = searchQuery.toLowerCase().trim();
+            result = result.filter(item =>
+                item.title.toLowerCase().includes(query) ||
+                item.text.toLowerCase().includes(query) ||
+                item.source.toLowerCase().includes(query) ||
+                new Date(item.date).toLocaleString().toLowerCase().includes(query)
+            );
+        }
+        return result;
+    }, [content, user.role, hideAdminContent, searchQuery]);
+
+    useEffect(() => {
+        const sortedContent = [...filteredContent].sort((a, b) => {
+            const dateA = new Date(a.date).getTime();
+            const dateB = new Date(b.date).getTime();
+            return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+        });
+
+        const newVisibleContent = sortedContent.slice(0, postsPerPage * page);
+        setVisibleContent(newVisibleContent);
+    }, [filteredContent, page, postsPerPage, sortOrder]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [searchQuery]);
+
     const loadMorePosts = () => {
         const userContent = user.role === "admin" ? content : content.filter(item => !item.forAdmin);
         const nextPage = page + 1;
         setPage(nextPage);
         setVisibleContent(userContent.slice(0, postsPerPage * nextPage));
     };
+
 
     return (
         <div className="content-manager">
@@ -180,15 +205,15 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                     {showForm && (
                         <CustomForm
                             titleValue={formData.title || ""}
-                            titleOnChange={handleChange} // Используем handleChange для title
+                            titleOnChange={handleChange}
                             textValue={formData.text || ""}
-                            textOnChange={handleTextChange} // Используем handleTextChange для reactQuill
+                            textOnChange={handleTextChange}
                             sourceValue={formData.source || ""}
-                            sourceOnChange={handleChange} // Используем handleChange для source
+                            sourceOnChange={handleChange}
                             imageUrlValue={formData.imageUrl || ""}
-                            imageUrlOnChange={handleChange} // Используем handleChange для imageUrl
+                            imageUrlOnChange={handleChange}
                             forAdminValue={formData.forAdmin || false}
-                            forAdminOnChange={handleChange} // Используем handleChange для forAdmin
+                            forAdminOnChange={handleChange}
                             handleSubmit={handleSubmit}
                             CancelOnClick={() => {
                                 setShowForm(false);
@@ -202,21 +227,18 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                 </div>
             )}
             <div className={`content-list ${contentListClassName}`}>
-                <div className="control-pannel-wrapper">
-                    {location.pathname !== "/projects" && visibleContent.length >= 2 && (
-                        <Button
-                            label={`Sort: ${sortOrder === "asc" ? "Old to New" : "New to Old"}`}
-                            onClick={() => setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))}
-                            className="sort-button"
-                            imageRight=""
-                            imageLeft=""
-                        />)
-                    }
-                    {user.role === "admin" && <label htmlFor="checkbox">
-                        <input className="hide-admin-checkbox" type="checkbox" checked={hideAdminContent} onChange={(e) => setHideAdminContent(e.target.checked)}></input>
-                        Show admin content
-                    </label>}
-                </div>
+                <SearchBar
+                    searchQuery={searchQuery}
+                    onSearchChange={setSearchQuery}
+                    sortOrder={sortOrder}
+                    onSortChange={setSortOrder}
+                    hideAdminContent={hideAdminContent}
+                    onHideAdminContentChange={setHideAdminContent}
+                    userRole={user.role || ""}
+                    locationPathname={location.pathname}
+                    visibleContentLength={visibleContent.length}
+
+                />
                 <div className="content-list-wrapper">
                     {visibleContent
                         .filter((item) => user.role === "admin" || !item.forAdmin)
@@ -291,8 +313,15 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                         })}
                 </div>
             </div>
-            {filteredContent.length > postsPerPage * page && (
-                <Button label="Load more" className="load-more-button" onClick={loadMorePosts} imageRight="" imageLeft="" />
+
+            {filteredContent.length > visibleContent.length && (
+                <Button
+                    label="Load more"
+                    className="load-more-button"
+                    onClick={loadMorePosts}
+                    imageRight=""
+                    imageLeft=""
+                />
             )}
         </div>
     );
