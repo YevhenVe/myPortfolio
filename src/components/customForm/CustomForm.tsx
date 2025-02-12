@@ -67,8 +67,8 @@ const CustomForm: React.FC<CustomFormProps> = ({
                 style={{
                     height: '400px',
                     marginBottom: '40px',
-                    backgroundColor: 'var(--color-light)',
-                    color: 'var(--color-dark)',
+                    backgroundColor: '#fff',
+
                 }}
             />
             <input
