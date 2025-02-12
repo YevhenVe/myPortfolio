@@ -15,40 +15,6 @@
         margin-bottom: 0px;
     }
     .content-list {
-        .control-pannel-wrapper {
-            margin-bottom: 20px;
-            .control-pannel-buttons {
-                display: flex;
-                flex-direction: row;
-
-                .sort-button {
-                    border: none;
-                    margin: 0 25px 0 15px;
-                    cursor: pointer;
-                }
-                label {
-                    display: flex;
-                    .hide-admin-checkbox {
-                        cursor: pointer;
-                        margin-right: 10px;
-                        height: 20px;
-                        width: 20px;
-                    }
-                }
-            }
-            .search-input {
-                padding: 5px 15px;
-                font-size: 18px;
-                width: 49%;
-                border-radius: 15px;
-                outline: none;
-                border: 1px solid #ccc;
-                margin-bottom: 20px;
-                @media screen and (max-width: 960px) {
-                    width: 100%;
-                }
-            }
-        }
         .button-box {
             display: flex;
             gap: 15px;

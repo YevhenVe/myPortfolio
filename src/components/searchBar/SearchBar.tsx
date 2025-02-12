@@ -1,6 +1,6 @@
-// searchBar.tsx
-
 import React from 'react';
+import SearchIcon from "../../assets/search.svg?react";
+import './SearchBar.scss';
 
 interface SearchBarProps {
     searchQuery: string;
@@ -25,15 +25,19 @@ const SearchBar: React.FC<SearchBarProps> = ({
     locationPathname,
     visibleContentLength
 }) => {
+
     return (
         <div className="control-pannel-wrapper">
-            <input
-                type="text"
-                placeholder="Search posts..."
-                value={searchQuery}
-                onChange={(e) => onSearchChange(e.target.value)}
-                className="search-input"
-            />
+            <label htmlFor="searchInput">
+                <SearchIcon />
+                <input
+                    type="text"
+                    placeholder={`Search posts...`}
+                    value={searchQuery}
+                    onChange={(e) => onSearchChange(e.target.value)}
+                    className="search-input"
+                    id='searchInput'
+                /></label>
             <div className='control-pannel-buttons'>
                 {locationPathname !== "/projects" && visibleContentLength >= 2 && (
                     <button

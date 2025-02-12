@@ -1,5 +1,3 @@
-// ContentManager.tsx
-
 import React, { useState, useEffect, useCallback } from "react";
 import { database } from "../../../Firebase";
 import { ref, query, orderByChild, onValue, remove, push, update } from "firebase/database";
@@ -11,6 +9,7 @@ import Button from "../../components/button/Button";
 import SearchBar from "../searchBar/SearchBar"; // Import the SearchBar component
 import "./ContentManager.scss";
 
+// Interface for the structure of a content item
 interface ContentItem {
     id: string;
     imageUrl: string;
@@ -21,6 +20,7 @@ interface ContentItem {
     forAdmin: boolean;
 }
 
+// Interface for the props of the ContentManager component
 export interface ContentManagerProps {
     contentPath: string;
     title: string;
@@ -34,7 +34,7 @@ export interface ContentManagerProps {
     contentListClassName: string;
     contentSourceClassName: string;
 }
-
+// ContentManager component to manage and display content
 const ContentManager: React.FC<ContentManagerProps> = ({
     contentPath,
     title,
@@ -48,6 +48,7 @@ const ContentManager: React.FC<ContentManagerProps> = ({
     contentSourceClassName,
     onClick
 }) => {
+    // State for form data, initialized with empty values
     const [formData, setFormData] = useState<Partial<ContentItem>>({
         imageUrl: "",
         title: "",
@@ -55,46 +56,53 @@ const ContentManager: React.FC<ContentManagerProps> = ({
         source: "",
         forAdmin: false,
     });
-    const [searchQuery, setSearchQuery] = useState('');
-    const [content, setContent] = useState<ContentItem[]>([]);
-    const [visibleContent, setVisibleContent] = useState<ContentItem[]>([]);
-    const [page, setPage] = useState(1);
-    const [showForm, setShowForm] = useState(false);
-    const [editMode, setEditMode] = useState(false);
-    const [editId, setEditId] = useState<string | null>(null);
-    const [loadedImages, setLoadedImages] = useState<{ [key: string]: boolean }>({});
-    const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+    const [searchQuery, setSearchQuery] = useState(''); // State for the search query
+    const [content, setContent] = useState<ContentItem[]>([]); // State for the fetched content items
+    const [visibleContent, setVisibleContent] = useState<ContentItem[]>([]); // State for the currently visible content items
+    const [page, setPage] = useState(1); // State for the current page number
+    const [showForm, setShowForm] = useState(false); // State to toggle the form visibility
+    const [editMode, setEditMode] = useState(false); // State to indicate if the form is in edit mode
+    const [editId, setEditId] = useState<string | null>(null); // State to store the ID of the item being edited
+    const [loadedImages, setLoadedImages] = useState<{ [key: string]: boolean }>({}); // State to track loaded images
+    const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc"); // State for the sort order of content
+    // State to control the visibility of admin-only content, default value is read from sessionStorage.
     const [hideAdminContent, setHideAdminContent] = useState<boolean>(() => {
         const storedValue = sessionStorage.getItem('hideAdminContent');
         return storedValue === 'true' ? true : false; // By dafault false, if not in the sessionStorage
     });
+    // Get the user data from Redux store
     const user = useSelector((state: RootState) => state.user);
+    // Function to display toast notifications
     const notify = (message: string, type: "success" | "error" = "success") => toast(message, { type });
-
+    // Handler for image load event
     const handleImageLoad = (itemId: string) => {
         setLoadedImages(prev => ({ ...prev, [itemId]: true }));
     };
-
+    // Handler for changes in the text area
     const handleTextChange = (value: string) => {
         setFormData((prev) => ({ ...prev, text: value }));
     };
-
+    // Handler for input changes in the form fields
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type, checked } = e.target as HTMLInputElement;
         setFormData((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
     };
-
+    // Handler for form submission and saving content
     const handleSubmit = async () => {
+        // Validate that all required fields are filled
         if (!formData.imageUrl || !formData.title || !formData.text || !formData.source) return;
         const contentRef = ref(database, contentPath);
         const currentDate = new Date().toISOString();
         const contentData = { ...formData, date: currentDate };
         try {
             if (editMode && editId) {
+                // Update existing content if in edit mode
                 await update(ref(database, `${contentPath}/${editId}`), contentData);
+                // Update the local state to reflect the changes
                 setContent((prev) => prev.map((item) => (item.id === editId ? { ...item, ...contentData } : item)));
                 notify(`${title} updated successfully!`);
             } else {
+                // Add new content if not in edit mode
                 await push(contentRef, contentData);
                 notify(`${title} added successfully!`);
             }
@@ -106,17 +114,18 @@ const ContentManager: React.FC<ContentManagerProps> = ({
             notify(`Failed to save ${title}. Try again later.`, "error");
         }
     };
-
+    // Function to delete a content item
     const deleteContent = async (id: string) => {
         if (user.role !== "admin") {
             notify("You don't have permission!");
             return;
         }
         await remove(ref(database, `${contentPath}/${id}`));
+        // Update local state to remove the deleted item
         setContent((prev) => prev.filter((item) => item.id !== id));
         notify(`${title} deleted successfully!`);
     };
-
+    // useCallback hook to memoize the fetchContent function
     const fetchContent = useCallback(() => {
         const contentRef = ref(database, contentPath);
         const contentQuery = query(contentRef, orderByChild("date"));
@@ -138,23 +147,23 @@ const ContentManager: React.FC<ContentManagerProps> = ({
         });
         return unsubscribe;
     }, [contentPath, page, postsPerPage, user.role, hideAdminContent]);
-
+    // useEffect hook to fetch content when the component mounts and whenever fetchContent changes
     useEffect(() => {
         const unsubscribe = fetchContent();
         return () => unsubscribe();
     }, [fetchContent]);
-
+    // useEffect to save hideAdminContent to sessionStorage
     useEffect(() => {
         sessionStorage.setItem('hideAdminContent', String(hideAdminContent));
     }, [hideAdminContent]);
-
+    // useMemo hook to efficiently filter content based on search query and user role
     const filteredContent = React.useMemo(() => {
         let result = user.role === "admin" ? content : content.filter(item => !item.forAdmin);
 
         if (!hideAdminContent && user.role === "admin") {
             result = result.filter(item => !item.forAdmin);
         }
-
+        // Filter content based on the search query
         if (searchQuery.trim()) {
             const query = searchQuery.toLowerCase().trim();
             result = result.filter(item =>
@@ -166,7 +175,7 @@ const ContentManager: React.FC<ContentManagerProps> = ({
         }
         return result;
     }, [content, user.role, hideAdminContent, searchQuery]);
-
+    // useEffect hook to sort and paginate content whenever dependencies change
     useEffect(() => {
         const sortedContent = [...filteredContent].sort((a, b) => {
             const dateA = new Date(a.date).getTime();
@@ -177,11 +186,11 @@ const ContentManager: React.FC<ContentManagerProps> = ({
         const newVisibleContent = sortedContent.slice(0, postsPerPage * page);
         setVisibleContent(newVisibleContent);
     }, [filteredContent, page, postsPerPage, sortOrder]);
-
+    // useEffect hook to reset the page to 1 whenever the search query changes
     useEffect(() => {
         setPage(1);
     }, [searchQuery]);
-
+    // Function to load more posts
     const loadMorePosts = () => {
         const userContent = user.role === "admin" ? content : content.filter(item => !item.forAdmin);
         const nextPage = page + 1;
