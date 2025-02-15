@@ -244,7 +244,6 @@ const ContentManager: React.FC<ContentManagerProps> = ({
                     hideAdminContent={hideAdminContent}
                     onHideAdminContentChange={setHideAdminContent}
                     userRole={user.role || ""}
-                    locationPathname={location.pathname}
                     visibleContentLength={visibleContent.length}
 
                 />
