@@ -1,12 +1,53 @@
 @use "../../styles/mixin.scss" as *;
 .auth {
     @include main-wrapper;
-    .info-box {
-        margin-bottom: 20px;
-        .info-left {
-            .user-pic {
-                border-radius: 25px;
+    .user_page_section {
+        margin-bottom: 45px;
+        .info-box {
+            margin-bottom: 20px;
+            .info-left {
+                .user-pic {
+                    border-radius: 25px;
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+    .user-role-section {
+        h2 {
+            margin-bottom: 25px;
+        }
+        .users-list {
+            margin-bottom: 145px;
+            .user-item {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
                 margin-bottom: 20px;
+                .user-pic-small {
+                    width: 96px;
+                    border-radius: 25px;
+                    margin-right: 10px;
+                    margin-bottom: 10px;
+                }
+                span {
+                }
+                .toggle {
+                    margin-top: 10px;
+                    height: 25px;
+                    display: flex;
+                    align-items: center;
+                    input[type="checkbox"] {
+                        width: 25px;
+                        height: 25px;
+                        margin-right: 10px;
+                    }
+                    span {
+                        margin: 0;
+                    }
+                }
+                .role-label {
+                }
             }
         }
     }
