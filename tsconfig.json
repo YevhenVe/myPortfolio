@@ -14,10 +14,11 @@
      "outDir": "./build",
      "rootDir": "./",
     "typeRoots": [
-      "src/env.d.ts",
       "node_modules/@types"
     ],
     "types": [
+      "react",
+      "react-dom",
       "vite/client"
     ],
     "baseUrl": "./",

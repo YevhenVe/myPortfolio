@@ -1,46 +1,109 @@
 {
-    "about": "I am a Frontend Engineer with experience in developing dynamic and responsive user interfaces using React.js, Next.js, JavaScript, CSS (SCSS, LESS). I specialize in creating high-performance, user-centered applications with a focus on user interaction. I have hands-on experience with Firebase for building fully functional web projects, including authentication, databases, and hosting. I am committed to continuously improving the quality and optimization of development processes.",
-    "skills": {
-      "frontend": ["React.js", "Next.js", "JavaScript (ES6+)", "TypeScript", "HTML5", "CSS3", "SCSS", "LESS"],
-      "backend": ["Firebase (Authentication, Database, Storage, Hosting)"],
-      "state_management": ["Context API", "Redux"],
-      "tools_technologies": ["Git", "GitHub", "GitHub Actions", "Docker", "Firebase"],
-      "design": ["Figma", "Adobe Illustrator", "Photoshop"],
-      "other": ["Responsive Design", "Cross-browser Compatibility", "UI/UX Best Practices"]
-    },
-    "work_experience": [
-      {
-        "position": "Full-stack Developer (Frontend-focused)",
-        "company": "New World Telecom LLC",
-        "location": "USA, On-site",
-        "dates": "September 2022 – Present",
-        "responsibilities": [
-          "Developed and maintained web applications using React.js, SCSS, and Firebase.",
-          "Implemented authentication and data management functionalities through Firebase.",
-          "Contributed to UI/UX design, enhancing user interaction.",
-          "Performed DevOps tasks: CI/CD and deployment using GitHub Actions."
-        ]
-      },
-      {
-        "position": "Frontend Developer",
-        "company": "Deep Thought Solutions Ltd",
-        "location": "England, Remote",
-        "dates": "September 2021 – September 2022",
-        "responsibilities": [
-          "Developed and maintained web applications using React.js and SCSS.",
-          "Participated in UI/UX design, improving user interaction.",
-          "Managed CI/CD pipelines and deployment using GitHub Actions."
-        ]
-      }
+  "about": "Full-Stack Engineer with 5+ years of experience designing, building, and deploying complete web applications from database architecture to pixel-perfect UI. Proficient in component-based architectures using React.js, Next.js, and TypeScript. Experienced in backend integration via Node.js, Firebase, and Supabase, alongside automated CI/CD deployment pipelines. Strong background in UI/UX wireframing with Figma and AI-assisted development tools for rapid product delivery.",
+  "skills": {
+    "frontend": [
+      "React.js",
+      "Next.js",
+      "JavaScript (ES6+)",
+      "TypeScript",
+      "JSX",
+      "Semantic HTML5",
+      "Tailwind CSS",
+      "SASS/SCSS",
+      "Responsive Web Design",
+      "Cross-browser Compatibility"
     ],
-    "education": {
-      "degree": "Master's Degree in Computer Technologies and Networks",
-      "institution": "Kharkiv National University 'Polytechnic Institute'",
-      "dates": "2005 – 2011"
+    "backend_infrastructure": [
+      "Node.js",
+      "Firebase (Authentication, Database, Storage, Hosting)",
+      "Supabase",
+      "REST APIs",
+      "HTTP/HTTPS",
+      "DNS",
+      "CDN"
+    ],
+    "state_management": [
+      "Context API",
+      "Redux Toolkit",
+      "Zustand"
+    ],
+    "tools_devops": [
+      "Git",
+      "GitHub",
+      "GitHub Actions",
+      "CI/CD",
+      "Docker",
+      "Netlify",
+      "Vercel"
+    ],
+    "design": [
+      "Figma",
+      "Adobe Illustrator",
+      "Photoshop",
+      "UI/UX Best Practices"
+    ],
+    "ai_tools": [
+      "Cursor IDE",
+      "Claude Code",
+      "GitHub Copilot",
+      "Gemini"
+    ]
+  },
+  "work_experience": [
+    {
+      "position": "Full-Stack Engineer / Compliance Supervisor",
+      "company": "New World Telecom LLC (USA)",
+      "location": "On-site",
+      "dates": "September 2022 – Present",
+      "responsibilities": [
+        "Developed and maintain the corporate web platform (nwt-llc.com) using React.js, TypeScript, and Firebase.",
+        "Built backend infrastructure using Firebase Auth, Firestore, and Hosting; integrated RESTful APIs to automate workflows.",
+        "Translated Figma designs into production-ready, mobile-first responsive interfaces using SASS/SCSS.",
+        "Automated deployment by configuring CI/CD pipelines via GitHub Actions and Netlify."
+      ]
     },
-    "languages": {
-      "English": "Proficient",
-      "Ukrainian": "Native",
-      "Russian": "Native"
+    {
+      "position": "Full-Stack Engineer",
+      "company": "Deep Thought Solutions Ltd (England)",
+      "location": "Remote",
+      "dates": "September 2021 – September 2022",
+      "responsibilities": [
+        "Engineered Bulbee TV (bulbee.tv) video streaming platform using React.js, Hooks, and SASS with mobile-first responsive design.",
+        "Developed Bulbee App (bulbee.org) admin dashboard featuring role-based access control (RBAC) and protected routing.",
+        "Delivered corporate landing page (dtsltd.org) as a performance-optimized React + TypeScript Single Page Application (SPA)."
+      ]
+    },
+    {
+      "position": "Full-Stack Engineer",
+      "company": "Freelance Worker",
+      "location": "Remote",
+      "dates": "November 2019 – August 2021",
+      "responsibilities": [
+        "Delivered 5+ end-to-end web projects as sole developer from UI/UX design to production deployment.",
+        "Built Next.js and React.js single page applications (SPA) with TypeScript, SASS, and mobile-first responsive web design.",
+        "Developed full-stack WordPress solutions with custom themes, plugin integration, and SEO optimization (advokat-veprytskyi.com, arhzemproekt.kh.ua).",
+        "Integrated monday.com API for client workflow automation and project management."
+      ]
+    },
+    {
+      "position": "HR Department Support Engineer",
+      "company": "UkSATSE",
+      "location": "Kharkiv, Ukraine",
+      "dates": "February 2009 – June 2021",
+      "responsibilities": [
+        "Provided technical support for corporate software, hardware, and network infrastructure.",
+        "Automated data tracking and reporting workflows to optimize internal administrative operations."
+      ]
     }
+  ],
+  "education": {
+    "degree": "Master’s Degree in Computer Technologies and Network",
+    "institution": "Kharkiv National University \"Polytechnic Institute\"",
+    "dates": "2005 – 2011"
+  },
+  "languages": {
+    "English": "Advanced / Professional working proficiency",
+    "Ukrainian": "Native",
+    "Russian": "Native"
   }
+}

@@ -8,7 +8,7 @@ import './Home.scss';
 const Home: React.FC = () => {
     const [openModal, setOpenModal] = useState(false);
     const links = {
-        link1: "https://docs.google.com/document/d/e/2PACX-1vR_gsdL1Ao3Av8lFDPEhj0O0QcCS98duY3rjyemjT4vKMBA_4GfUIzi6xGxTAsd-_4qHBPwvTMHB3st/pub",
+        link1: "https://drive.google.com/file/d/1r6rnUU4VfikQfqnNdVY8G7WOPJ3tF37M/view?usp=drive_link",
     };
 
     const handleClickLinkOne = (link: string) => {
@@ -21,25 +21,41 @@ const Home: React.FC = () => {
                 <div className="introduction-wrapper">
                     <div className="introduction-left">
                         <div className="introduction">
-                            <p className='greeting'>hello i`m</p>
-                            <p className='name'>Yevhen Veprytskyi</p>
-                            <p className='position'>Frontend engeneer</p>
+                            <p className="greeting">Hello, I'm</p>
+                            <p className="name">Yevhen Veprytskyi</p>
+                            <p className="position">Frontend engineer</p>
                             <div className="button-box">
-                                <Button label="HIRE ME" onClick={() => setOpenModal(!openModal)} className="hire-button" imageRight="" imageLeft="" />
-                                <Button label="DOVNLOAD CV" onClick={() => handleClickLinkOne(links.link1)} className="cv-button" imageRight="" imageLeft="" />
+                                <Button 
+                                    label="HIRE ME" 
+                                    onClick={() => setOpenModal(true)} 
+                                    className="hire-button" 
+                                    imageRight="" 
+                                    imageLeft="" 
+                                />
+                                <Button 
+                                    label="DOWNLOAD CV" 
+                                    onClick={() => handleClickLinkOne(links.link1)} 
+                                    className="cv-button" 
+                                    imageRight="" 
+                                    imageLeft="" 
+                                />
                             </div>
-
                         </div>
                     </div>
                     <div className="introduction-right">
-                        <img className="introduction-pic" src={HeroImage} alt="" />
+                        <img 
+                            className="introduction-pic" 
+                            src={HeroImage} 
+                            alt="Yevhen Veprytskyi - Frontend Engineer" 
+                        />
                     </div>
                 </div>
             </div>
-            {openModal &&
-                <ModalWindow onClick={() => setOpenModal(!openModal)}>
+            {openModal && (
+                <ModalWindow onClick={() => setOpenModal(false)}>
                     <ContactForm />
-                </ModalWindow>}
+                </ModalWindow>
+            )}
         </>
     );
 };
